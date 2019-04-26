@@ -1,29 +1,26 @@
 'use strict';
 
-var util = require('util');
+const util = require('util');
+const envvar = require('envvar');
+const express = require('express');
+const bodyParser = require('body-parser');
+const moment = require('moment');
+const plaid = require('plaid');
+const dotenv = require('dotenv').config();
 
-var envvar = require('envvar');
-var express = require('express');
-var bodyParser = require('body-parser');
-var moment = require('moment');
-var plaid = require('plaid');
-
-var APP_PORT = envvar.number('APP_PORT', 8000);
-var PLAID_CLIENT_ID = envvar.string('PLAID_CLIENT_ID');
-var PLAID_SECRET = envvar.string('PLAID_SECRET');
-var PLAID_PUBLIC_KEY = envvar.string('PLAID_PUBLIC_KEY');
-var PLAID_ENV = envvar.string('PLAID_ENV', 'sandbox');
-
-// PLAID_PRODUCTS is a comma-separated list of products to use when initializing
-// Link. Note that this list must contain 'assets' in order for the app to be
-// able to create and retrieve asset reports.
-var PLAID_PRODUCTS = envvar.string('PLAID_PRODUCTS', 'transactions');
+const APP_PORT = envvar.number('APP_PORT', 8000);
+const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
+const PLAID_SECRET = process.env.PLAID_SECRET;
+const PLAID_PUBLIC_KEY = process.env.PLAID_PUBLIC_KEY;
+const PLAID_ENV = process.env.PLAID_ENV;
+const PLAID_PRODUCTS = process.env.PLAID_PRODUCTS;
+//^ grabs environment varables in the .env file
 
 // We store the access_token in memory - in production, store it in a secure
 // persistent data store
-var ACCESS_TOKEN = null;
-var PUBLIC_TOKEN = null;
-var ITEM_ID = null;
+let ACCESS_TOKEN = null;
+let PUBLIC_TOKEN = null;
+let ITEM_ID = null;
 
 // Initialize the Plaid client
 // Find your API keys in the Dashboard (https://dashboard.plaid.com/account/keys)
