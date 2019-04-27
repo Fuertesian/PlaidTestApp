@@ -14,6 +14,8 @@ const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_PUBLIC_KEY = process.env.PLAID_PUBLIC_KEY;
 const PLAID_ENV = process.env.PLAID_ENV;
 const PLAID_PRODUCTS = process.env.PLAID_PRODUCTS;
+//const PLAID_PRODUCTS = envvar.string('PLAID_PRODUCTS','transactions');
+//const PLAID_ENV = envvar.string('PLAID_ENV', 'develop');
 //^ grabs environment varables in the .env file
 
 // We store the access_token in memory - in production, store it in a secure
@@ -33,7 +35,7 @@ var client = new plaid.Client(
 );
 
 var app = express();
-app.use(express.static('public'));
+app.use(express.static('views'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: false
@@ -41,7 +43,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get('/', function(request, response, next) {
-  response.render('index.ejs', {
+  response.render('plaidIndex.ejs', {
     PLAID_PUBLIC_KEY: PLAID_PUBLIC_KEY,
     PLAID_ENV: PLAID_ENV,
     PLAID_PRODUCTS: PLAID_PRODUCTS,
