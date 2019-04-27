@@ -5,7 +5,7 @@
 <title>Plaid Link</title>
 <link rel="stylesheet" href="https://threads.plaid.com/threads.css">
 
-<link rel="stylesheet" type="text/css" href="plaidstyle.css">
+<link rel="stylesheet" type="text/css" href="plaidStyle.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -194,6 +194,7 @@
   <script>
   (function($) {
     var products = '<%= PLAID_PRODUCTS %>'.split(',');
+    //var products = ['transactions']
     if (products.includes('assets')) {
       $('#assets').show();
     }
@@ -202,7 +203,7 @@
       apiVersion: 'v2',
       clientName: 'Plaid Quickstart',
       env: '<%= PLAID_ENV %>',
-      product: products,
+        product: products,
       key: '<%= PLAID_PUBLIC_KEY %>',
       // webhook: 'https://your-domain.tld/plaid-webhook',
       onSuccess: function(public_token) {
