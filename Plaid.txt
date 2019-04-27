@@ -1,0 +1,30 @@
+Acquire API keys from plaid
+
+Creating Items
+Use Link module to create items = (bank accounts, sign-in credentials)
+Link passes a public_token that will later be exchanged for an access_token to the backend
+This access_token and item_id identify the item
+the access_token is used along with client_id and secret_client_id (API keys) to access into about items
+
+Accessing info from Items
+API endpoints access data from specific items using the item's access_token
+
+POST /item/get
+This endpoint inspects the status of item and provides all the types of info that are available to be displayed using the plaid API, and which endpoints you are currently using
+
+To store plaid api data use a table to store the access_token and item_id as primary keys to an individual user
+
+POST /transactions/get
+POST /accounts/balance/get
+
+Link
+user creates item, this returns public_token
+onSuccess() callback -a function in LINK- sends public_token to backend
+
+/item/public_token/exchange
+backend exchanges public_token (from LINK) with access_token and item_id
+
+new public_token can be generated if old one expires (30 min) using the
+POST /item/public_token/create     endpoint
+
+access_token and item_id should be stored securely in database
